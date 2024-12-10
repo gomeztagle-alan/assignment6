@@ -14,14 +14,6 @@ Connectedto (localhost, 34664)
 - [ ] trigger add/multiply script
 - [ ] receive results through socket
 
-## Reverse Engineer Server.py
-- [ ] handle POST and xml request from client
-- [ ] ?
-- [ ] ?
-- [ ] sum two numbers
-- [ ] multiply two numbers
-- [ ] return to client
-
 ## Supder Duper Important
 - [ ] update repository consistently
 - [x] ~~update readme with tasks~~
