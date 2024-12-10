@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     int clientfd;
     char *num1, *num2;
     char *host, *port;
-	char src[MAXLINE - 2];
+	char src[MAXLINE];
 	char dest[MAXLINE];
 	char buf[MAXLINE];
 	rio_t rio;
@@ -38,16 +38,20 @@ int main(int argc, char **argv)
 	Write your code here.
 	Recommend to use the Robust I/O package.
     */
-	int i = 1;
-	while (Fgets(src, MAXLINE-2, file) != NULL) {
-		sprintf(dest, "%s\r", src);
-		Rio_writen(clientfd, dest, strlen(dest));
+
+	while (Fgets(src, MAXLINE - 1, file) != NULL) {
+		size_t len = strlen(src);
+		if (src[0] != '<') {
+			src[len - 1] = '\r';
+			src[len] = '\n';
+			src[len + 1] = '\0';
+		}
+		//Fputs(src, stdout);
+		Rio_writen(clientfd, src, strlen(src));
 		Rio_readlineb(&rio, buf, MAXLINE);
 //		Fputs("%d: ", i++, stdout);
 		Fputs(buf, stdout);
-		//sleep(5);
 	}
-	//Rio_writen(clientfd, "\r\n", strlen("\r\n"));
 
 
     
