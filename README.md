@@ -1,5 +1,5 @@
 ![server](images/designer.png)
-Last Updated 12/6
+Last Updated 12/10
 # Reverse Engineer Client.py
 - [x] ~~copy xml response from client.py using echoserver (saved in xml_response.txt)~~
 - [x] ~~send identical response from client.c to echoserver~~
