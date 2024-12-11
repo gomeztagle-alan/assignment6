@@ -14,6 +14,8 @@ int main(int argc, char **argv)
 	char src[MAXLINE];
 	char dest[MAXLINE];
 	char buf[MAXLINE];
+	char reply[MAXLINE];
+	double numbers[2];
 	rio_t rio;
 
 	/* Read file */
@@ -47,13 +49,24 @@ int main(int argc, char **argv)
 			src[len + 1] = '\0';
 		}
 		//Fputs(src, stdout);
-		Rio_writen(clientfd, src, strlen(src));
-		Rio_readlineb(&rio, buf, MAXLINE);
+		//Rio_writen(clientfd, src, strlen(src));
+		//Rio_readlineb(&rio, buf, MAXLINE);
 //		Fputs("%d: ", i++, stdout);
-		Fputs(buf, stdout);
+		strncat(dest, src, strlen(src));
+		//Fputs(buf, stdout);
 	}
-
-
+	printf("Put src into stdout ");
+	Fputs(dest, stdout);
+	Rio_writen(clientfd, dest, strlen(dest));
+	
+	int n = 0;
+	int len;
+	while( (len = Rio_readlineb(&rio, buf, MAXLINE)) != 0 ) {
+	//while(n < 20) {
+		//len = Rio_readlineb(&rio, buf, MAXLINE);
+		printf("%d %s",len ,buf);
+		n++;
+	}
     
     Close(clientfd);
     exit(0);
