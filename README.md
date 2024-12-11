@@ -11,8 +11,9 @@ Connected to (localhost, 54446)
 server received 31 bytes
 Connectedto (localhost, 34664)
 ```
-- [ ] trigger add/multiply script
-- [ ] receive results through socket
+- [x] trigger add/multiply script
+- [x] receive results through socket
+- [ ] format results
 
 ## Supder Duper Important
 - [ ] update repository consistently
