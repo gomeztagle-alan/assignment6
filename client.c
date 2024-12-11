@@ -6,6 +6,17 @@
 #include "csapp.h"
 #include <time.h>
 
+void parse_response(const char *response, double *values) {
+	const char *start = strstr(response, "<double>");
+	if (start) {
+		sscanf(start, "<double>%lf</double>", &values[0]);
+		start = strstr(start + 1, "<double>");
+		if (start) {
+			sscanf(start, "<double>%lf</double>", &values[1]);
+		}
+	}
+}
+
 int main(int argc, char **argv) 
 {
     int clientfd;
@@ -15,7 +26,9 @@ int main(int argc, char **argv)
 	char dest[MAXLINE];
 	char buf[MAXLINE];
 	char reply[MAXLINE];
-	double numbers[2];
+	char request[MAXLINE];
+	char* ptr;
+	double numbers[2] = {0.0, 0.0};
 	rio_t rio;
 
 	/* Read file */
@@ -30,6 +43,7 @@ int main(int argc, char **argv)
     num1 = argv[1];
     num2 = argv[2];
 
+
     host = "localhost";
     port = "8080";
 
@@ -40,7 +54,8 @@ int main(int argc, char **argv)
 	Write your code here.
 	Recommend to use the Robust I/O package.
     */
-
+	int n = 1;
+	char buff_write[MAXLINE];
 	while (Fgets(src, MAXLINE - 1, file) != NULL) {
 		size_t len = strlen(src);
 		if (src[0] != '<') {
@@ -48,25 +63,43 @@ int main(int argc, char **argv)
 			src[len] = '\n';
 			src[len + 1] = '\0';
 		}
-		//Fputs(src, stdout);
-		//Rio_writen(clientfd, src, strlen(src));
-		//Rio_readlineb(&rio, buf, MAXLINE);
-//		Fputs("%d: ", i++, stdout);
+		if (n == 13) {
+			snprintf(buff_write, sizeof(char) * ( 34+strlen(num1) ),"<value><double>%s</double></value>\n", num1);
+			strncat(dest, buff_write, strlen(buff_write));
+			n++;
+			continue;
+		
+		}
+
+		if (n == 16) {
+			snprintf(buff_write, sizeof(char) * ( 34+strlen(num2) ), "<value><double>%s</double></value>\n", num2);
+			strncat(dest, buff_write, strlen(buff_write));
+			n++;
+			continue;
+		}
 		strncat(dest, src, strlen(src));
-		//Fputs(buf, stdout);
-	}
-	printf("Put src into stdout ");
+		n++;
+	} 
+	printf("send: ");
+	Fputs(request, stdout);
+	printf("\nsend: ");
 	Fputs(dest, stdout);
 	Rio_writen(clientfd, dest, strlen(dest));
 	
-	int n = 0;
 	int len;
 	while( (len = Rio_readlineb(&rio, buf, MAXLINE)) != 0 ) {
 	//while(n < 20) {
 		//len = Rio_readlineb(&rio, buf, MAXLINE);
-		printf("%d %s",len ,buf);
-		n++;
+		strncat(reply, buf, len);
+		//printf("%d %s",len ,buf);
 	}
+
+	printf("\nreply: ");
+	Fputs(reply, stdout);
+
+	parse_response(reply, numbers);
+
+	printf("\nresult: %.2lf %.2lf\n", numbers[0], numbers[1]);
     
     Close(clientfd);
     exit(0);
