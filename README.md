@@ -1,11 +1,11 @@
 ![server](images/designer.png)
-Last Updated 12/6
+Last Updated 12/10
 # Reverse Engineer Client.py
 - [x] ~~copy xml response from client.py using echoserver (saved in xml_response.txt)~~
 - [x] ~~send identical response from client.c to echoserver~~
-- [ ] send xml_response with proper \r \n
+- [x] ~~send xml_response with proper \r \n~~
 > POST messages receive \r\n, while xml tags only receive \n
-- [ ] fix double connection for client.c
+- [x] ~~fix double connection for client.c~~
 ```
 Connected to (localhost, 54446)
 server received 31 bytes
@@ -13,14 +13,6 @@ Connectedto (localhost, 34664)
 ```
 - [ ] trigger add/multiply script
 - [ ] receive results through socket
-
-## Reverse Engineer Server.py
-- [ ] handle POST and xml request from client
-- [ ] ?
-- [ ] ?
-- [ ] sum two numbers
-- [ ] multiply two numbers
-- [ ] return to client
 
 ## Supder Duper Important
 - [ ] update repository consistently
